@@ -12,7 +12,7 @@
 <body>
 	<div class="container" ng-controller="GitStatsCtrl">
       <form class="git-form"  ng-submit="getRepo()">
-        <h2 class="git-form-heading">Git Statistics</h2>
+        <h2>Git Statistics</h2>
 		 <div class="form-group">
 			<label for="username" class="sr-only">Username</label>
 			<input type="text" id="username" class="form-control" placeholder="Username" ng-model="username" required autofocus>  
@@ -20,6 +20,20 @@
 		<label>{{username}}</label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       </form>
+	  
+	 <div class="panel-body">
+		<h2 ng-show="repoData">Repositories Owned by {{username}} :</h2>
+		<div class="list-group">
+			<div ng-repeat="repo in repoData" class="list-group-item ">
+				<div class="row">
+					<div class="col-md-12">
+						<h4><a href="{{repo.html_url}}" target="_blank" >{{repo.name}}</a></h4>						
+					</div>					
+				</div>
+			</div>
+		</div>
+
+		</div>
     </div> <!-- /container -->
 </body>
 </html>
