@@ -6,12 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="app.css">  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script> 
+   <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+   <script src="underscore.js"></script>
   <script src="app.js"></script>
 </head>
 <body>
 	<div class="container" ng-controller="GitStatsCtrl">
-      <form class="git-form"  ng-submit="getRepo()">
+      <form class="git-form"  ng-submit="getRepos()">
         <h2>Git Statistics</h2>
 		 <div class="form-group">
 			<label for="username" class="sr-only">Username</label>
@@ -27,13 +30,25 @@
 			<div ng-repeat="repo in repoData" class="list-group-item ">
 				<div class="row">
 					<div class="col-md-12">
-						<h4><a href="{{repo.html_url}}" target="_blank" >{{repo.name}}</a></h4>						
+						<h4><a href="#" ng-click="getCommits(repo.name)">{{repo.name}}</a></h4>						
 					</div>					
 				</div>
 			</div>
 		</div>
-
-		</div>
+		</div> <!-- panel-body ---->
+		
+		<div>
+			<h2 ng-show="repo.commitData">Commits for Repository {{repo.name}} :</h2>
+			<ul>
+				<li ng-repeat="commit in repo.commitData">					
+					<strong>ID :</strong> <span>{{commit.sha}}</span>
+					<p><strong>Message :</strong>  {{commit.commit.message}}</p>			
+				</li>
+			</ul>
+		</div>		
+		
+		<div ng-show="lineChartXData.length && lineChartYData.length"><hc-chart options="chartOptions" >Placeholder for generic chart</hc-chart></div>
+		
     </div> <!-- /container -->
 </body>
 </html>
