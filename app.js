@@ -1,5 +1,6 @@
 var app = angular.module('gitStats', []);
 
+
 // Directive for generic chart, pass in chart options
 app.directive('hcChart', function () {
     return {
@@ -8,12 +9,15 @@ app.directive('hcChart', function () {
 			scope: {
 				options: '='
 			},
-			link: function (scope, element) {
-				Highcharts.chart(element[0], scope.options);
+			link: function (scope, element, attrs) {
+				 scope.$watch('chartOptions', function() {
+					Highcharts.chart(element[0], scope.options);
+				});
+								
 			}
 		};
 	});
-	
+
 app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 
 	$scope.username = '';
@@ -49,8 +53,7 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 				$scope.lineChartYData.push(count);	
 				if($scope.repoData.length === $scope.lineChartXData.length){
 					$scope.chartOptions.xAxis.categories = $scope.lineChartXData;
-					$scope.chartOptions.series[0] = $scope.lineChartYData;
-					new Highcharts.chart($scope.chartOptions);	
+					$scope.chartOptions.series[0].data = $scope.lineChartYData;							
 				}	
 		}, function errorCallback(response) {
 			
@@ -67,39 +70,50 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 		}, function errorCallback(response) {
 			console.log(response);
 		});
-	};	
+	};
 	
-	if($scope.lineChartXData && $scope.lineChartYData){
-		$scope.chartOptions = {
-			title: {
-				text: 'Repository Commit data'
-			},
-			xAxis: {
-				categories: []
-			},
-
-			series: [{
-				data: []
-			}]
-		}; 
-	}
-	
-	/*  $scope.chartOptions = {
+	/* $scope.chartOptions = {		
 		title: {
-			text: 'Temperature data'
+			text: 'Repository Commit data'
 		},
 		xAxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-				'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			categories: $scope.lineChartXData
 		},
 
 		series: [{
-			data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+			data: $scope.lineChartYData
 		}]
-	}; */
-
+	}; 	 */
+	
+	  $scope.chartOptions = {
+		title: {
+			text: 'Repository Commit data'
+		},
+		xAxis: {			
+            title: {
+                enabled: true,
+                text: 'Repository',
+                style: {
+                    fontWeight: 'normal'
+				}	
+             }, 
+			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+				'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		},		
+        yAxis: {
+            title: {
+                enabled: true,
+                text: 'Commit',
+                style: {
+                    fontWeight: 'normal'
+                }
+            }
+        },	
+		series: [{
+			data: [11, 27, 6, 2, 31, 9, 43]
+		}]
+	}; 
 	
 }]);
-
 
 
