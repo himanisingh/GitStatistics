@@ -2,5 +2,7 @@
   max-width: 330px;
   padding: 15px;
   margin: 0 auto; }
+  .git-form .error {
+    color: red; }
 
 /*# sourceMappingURL=app.css.map */

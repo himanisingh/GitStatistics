@@ -25,7 +25,8 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 	$scope.repos = [];
 	$scope.lineChartXData = [];
 	$scope.lineChartYData = [];
-
+	$scope.error = {};
+	
 	var baseUrl = 'https://api.github.com/';
 
 	$scope.getRepos = function(){
@@ -38,7 +39,9 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 					$scope.getCommitCount(item.name);						
 				}); 
 		}, function errorCallback(response) {
-			
+			$scope.error.status = response.status;
+			$scope.error.message = response.statusText;
+			console.log(response);
 		});
 	};
 
@@ -56,7 +59,7 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 					$scope.chartOptions.series[0].data = $scope.lineChartYData;							
 				}	
 		}, function errorCallback(response) {
-			
+			console.log(response);
 		});
 	};
 
@@ -68,7 +71,7 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 		}).then(function successCallback(response) {    
 				$scope.repo.commitData = response.data;			
 		}, function errorCallback(response) {
-			console.log(response);
+			$scope.repo.commitData = [];
 		});
 	};
 	
@@ -81,6 +84,7 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
 		},
 
 		series: [{
+			name: $scope.username,
 			data: $scope.lineChartYData
 		}]
 	}; 	 */
@@ -97,8 +101,7 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
                     fontWeight: 'normal'
 				}	
              }, 
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-				'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			categories: ['cordova-jquerymobile-boilerplate', 'Demo2', 'Expense Computation', 'GitStatistics', 'himani', 'progress-bar', 'todomvc']
 		},		
         yAxis: {
             title: {
@@ -110,6 +113,7 @@ app.controller('GitStatsCtrl', ['$scope','$http', function($scope,$http) {
             }
         },	
 		series: [{
+			name: 'himanisingh',
 			data: [11, 27, 6, 2, 31, 9, 43]
 		}]
 	}; 

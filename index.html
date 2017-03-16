@@ -20,7 +20,7 @@
 			<label for="username" class="sr-only">Username</label>
 			<input type="text" id="username" class="form-control" placeholder="Username" ng-model="username" required autofocus>  
 		</div>	
-		<label>{{username}}</label>
+		<label class="error" ng-show="error.status">{{error.status}} - {{error.message}}</label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       </form>
 	  
@@ -37,14 +37,14 @@
 		</div>
 		</div> <!-- panel-body ---->
 		
-		<div>
-			<h2 ng-show="repo.commitData">Commits for Repository {{repo.name}} :</h2>
+		<div ng-show="repo.commitData">
+			<h2 >Commits for Repository {{repo.name}} :</h2>
 			<ul>
 				<li ng-repeat="commit in repo.commitData">					
 					<strong>ID :</strong> <span>{{commit.sha}}</span>
 					<p><strong>Message :</strong>  {{commit.commit.message}}</p>			
 				</li>
-			</ul>
+			</ul>			
 		</div>		
 		
 		<div ng-show="lineChartXData.length && lineChartYData.length"><hc-chart options="chartOptions" >Placeholder for generic chart</hc-chart></div>
